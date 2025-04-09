@@ -28,22 +28,28 @@ const Articles = () => {
       try {
         const blogRef = collection(db, "blogs");
         const q = query(blogRef, orderBy("timestamp", "desc"), limit(6));
+        console.log(q);
+
         const docSnap = await getDocs(q);
         const lastVisible = docSnap.docs[docSnap.docs.length - 1];
         setLastBlog(lastVisible);
         const blogs = [];
         docSnap.forEach((doc) => {
+          console.log(doc);
           blogs.push({
             id: doc.id,
             data: doc.data(),
           });
         });
         setBlogsData(blogs);
-        // console.log(blogsData)
+        console.log(blogsData)
         setLoading(false);
       } catch (error) {
         console.log(error);
         toast.error("Unable to load articles");
+      } finally {
+        console.log('got here new finally');
+        setInfiniteLoading(false);
       }
     };
     fetchBlogs();
@@ -57,7 +63,7 @@ const Articles = () => {
       const blogRef = collection(db, "blogs");
       const q = query(
         blogRef,
-        orderBy("timestamp", "desc"),
+        // orderBy("timestamp", "desc"),
         startAfter(lastBlog),
         limit(4)
       );
@@ -77,6 +83,8 @@ const Articles = () => {
         });
       });
       setBlogsData([...blogsData, ...blogs]);
+
+      console.log('got here try end');
     } catch (error) {
       console.log(error);
       toast.error("Could not fetch more blogs !!");
