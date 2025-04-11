@@ -81,7 +81,7 @@ const Header = () => {
           onClick={() => navigate("/")}
           className='logo cursor-pointer pl-4 text-lg sm:text-3xl'
         >
-          Write-it
+          Maj's Blog
         </h1>
         <div
           onClick={() => setShow(!show)}
